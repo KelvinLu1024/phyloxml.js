@@ -17,15 +17,28 @@ function parsePhyloXML(path) {
     function walk(node) {
         var descr = {};
         descr.subnodes = [];
-        for (var child of node.children) {
-            if (child.tag == "clade") {
-                descr.subnodes.push(walk(child, {}));
-            } else if (child.tag == "branch_length") {
-                descr.length = parseFloat(child.firstChild.data);
-            } else if (child.tag == "name") {
-                descr.name = child.firstChild.data;
+        var blen = node.attributes["branch_length"];
+        if (blen == undefined) {
+            for (var child of node.children) {
+                if (child.tag == "clade") {
+                    descr.subnodes.push(walk(child, {}));
+                } else if (child.tag == "branch_length") {
+                    descr.length = parseFloat(child.firstChild.data);
+                } else if (child.tag == "name") {
+                    descr.name = child.firstChild.data;
+                }
             }
+            return descr;
+        } else {
+            descr.length = parseFloat(blen.value);
+            for (var child of node.children) {
+                if (child.tag == "clade") {
+                    descr.subnodes.push(walk(child, {}));
+                } else if (child.tag == "name") {
+                    descr.name = child.firstChild.data;
+                }
+            }
+            return descr;
         }
-        return descr;
     }
 }
