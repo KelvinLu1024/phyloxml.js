@@ -4,7 +4,7 @@ function parsePhyloXML(path) {
     return walk(root);
     
     function loadXML(path) {
-        var req = new XMLHTTPRequest();
+        var req = new XMLHttpRequest();
         var xml = null;
         req.addEventListener("load", function(){
             xml = this.responseXML;
