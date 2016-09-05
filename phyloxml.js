@@ -2,7 +2,6 @@ function parsePhyloXML(path) {
   var xml = loadXML(path);
   var root = xml.documentElement.firstElementChild;
   var json = walk(root);
-  console.log(xml, root, json);
   return json;
   
   function loadXML(path) {
@@ -53,7 +52,8 @@ function parsePhyloXML(path) {
       }
     }
     descr.name = descr.name || "";
-    descr.length = descr.length || 0;
+    descr.length = descr.length || 1;
+    //descr.length = 1;
     return descr;
   }
 }
